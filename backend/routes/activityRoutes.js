@@ -16,4 +16,15 @@ router.post('/add', async (req, res) => {
   res.json(newActivity);
 });
 
+// Delete an activity by ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const activity = await Activity.findByIdAndDelete(req.params.id);
+    if (!activity) return res.status(404).json({ message: 'Activity not found' });
+    res.json({ message: 'Activity deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting activity' });
+  }
+});
+
 module.exports = router;
