@@ -8,10 +8,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/battle-of-books', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// Updated mongoose connection (removed deprecated options)
+mongoose.connect('mongodb://localhost:27017/battle-of-books');
 
 // Routes
 app.use('/students', studentRoutes);
