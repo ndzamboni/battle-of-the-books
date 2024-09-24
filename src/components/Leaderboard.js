@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { getStudents } from '../api';
-import './Leaderboard.css';  // Import leaderboard styles
+import React from 'react';
 
-const Leaderboard = () => {
-  const [students, setStudents] = useState([]);
-
-  useEffect(() => {
-    getStudents().then((response) => {
-      const sortedStudents = response.data.sort((a, b) => b.totalPoints - a.totalPoints);
-      setStudents(sortedStudents);
-    });
-  }, []);
-
+const Leaderboard = ({ students }) => {
   return (
-    <div className="leaderboard">
+    <div>
       <h2>Leaderboard</h2>
       <ul>
-        {students.map((student) => (
-          <li key={student._id}>
-            {student.name} - {student.totalPoints} points
-          </li>
-        ))}
+        {students
+          .sort((a, b) => b.totalPoints - a.totalPoints) // Sort by points
+          .map((student) => (
+            <li
+              key={student._id}
+              style={{ backgroundColor: student.color }}  // Apply student's color
+            >
+              {student.name} - {student.totalPoints} points
+            </li>
+          ))}
       </ul>
     </div>
   );
