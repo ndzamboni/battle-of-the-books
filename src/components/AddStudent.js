@@ -1,22 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { addStudent, getStudents } from '../api';
+import React, { useState } from 'react';
+import { addStudent } from '../api';
 
-const AddStudent = () => {
+const generateRandomColor = () => {
+  // Generate a random hex color
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+const AddStudent = ({ students, setStudents }) => {
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState('');
-  const [students, setStudents] = useState([]);
-
-  useEffect(() => {
-    getStudents().then((response) => setStudents(response.data));
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addStudent({ name, avatar }).then(() => {
+    const color = generateRandomColor();  // Assign a random color to the student
+    addStudent({ name, avatar, color }).then((response) => {
       setName('');
       setAvatar('');
-      // Fetch updated student list
-      getStudents().then((response) => setStudents(response.data));
+      setStudents([...students, response.data]);  // Update the student list with color
     });
   };
 
@@ -38,13 +43,6 @@ const AddStudent = () => {
         />
         <button type="submit">Add Student</button>
       </form>
-
-      <h3>Current Students:</h3>
-      <ul>
-        {students.map((student) => (
-          <li key={student._id}>{student.name}</li>
-        ))}
-      </ul>
     </div>
   );
 };

@@ -6,25 +6,23 @@ const AssignActivity = () => {
   const [activities, setActivities] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState('');
   const [selectedActivity, setSelectedActivity] = useState('');
-  const [points, setPoints] = useState(0);
 
   useEffect(() => {
-    // Fetch students and activities when the component loads
     getStudents().then((response) => setStudents(response.data));
     getActivities().then((response) => setActivities(response.data));
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (selectedStudent && selectedActivity && points > 0) {
-      assignPoints(selectedStudent, { activityId: selectedActivity, points }).then(() => {
-        alert('Points assigned successfully');
+    if (selectedStudent && selectedActivity) {
+      const activity = activities.find((act) => act._id === selectedActivity);
+      assignPoints(selectedStudent, { activityId: selectedActivity, points: activity.points }).then(() => {
+        alert('Activity assigned successfully');
         setSelectedStudent('');
         setSelectedActivity('');
-        setPoints(0);
       });
     } else {
-      alert('Please fill in all fields');
+      alert('Please select both student and activity');
     }
   };
 
@@ -52,20 +50,12 @@ const AssignActivity = () => {
         <option value="">Select Activity</option>
         {activities.map((activity) => (
           <option key={activity._id} value={activity._id}>
-            {activity.name}
+            {activity.name} - {activity.points} points
           </option>
         ))}
       </select>
 
-      <input
-        type="number"
-        placeholder="Points"
-        value={points}
-        onChange={(e) => setPoints(e.target.value)}
-        required
-      />
-
-      <button type="submit">Assign Points</button>
+      <button type="submit">Assign Activity</button>
     </form>
   );
 };

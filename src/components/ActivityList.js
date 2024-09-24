@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { getActivities, deleteActivity } from '../api';
+import React from 'react';
+import { deleteActivity } from '../api';
 
-const ActivityList = () => {
-  const [activities, setActivities] = useState([]);
-
-  useEffect(() => {
-    getActivities().then((response) => setActivities(response.data));
-  }, []);
-
+const ActivityList = ({ activities, setActivities }) => {
   const handleDelete = (id) => {
     deleteActivity(id).then(() => {
       setActivities(activities.filter((activity) => activity._id !== id));

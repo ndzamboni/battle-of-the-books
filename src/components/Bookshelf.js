@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { getStudents, deleteStudent } from '../api';
-import './Bookshelf.css';  // Import bookshelf styles
+import React from 'react';
+import { deleteStudent } from '../api';
+import './Bookshelf.css';
 
-const Bookshelf = () => {
-  const [students, setStudents] = useState([]);
-
-  useEffect(() => {
-    getStudents().then((response) => setStudents(response.data));
-  }, []);
-
+const Bookshelf = ({ students, setStudents }) => {
   const handleDelete = (id) => {
     deleteStudent(id).then(() => {
       setStudents(students.filter((student) => student._id !== id));
@@ -18,7 +12,11 @@ const Bookshelf = () => {
   return (
     <div className="bookshelf">
       {students.map((student) => (
-        <div className="book" key={student._id}>
+        <div
+          className="book"
+          key={student._id}
+          style={{ backgroundColor: student.color }} // Apply student's color
+        >
           <img src={student.avatar} alt={`${student.name}'s avatar`} />
           <h3>{student.name}</h3>
           <p>Points: {student.totalPoints}</p>
