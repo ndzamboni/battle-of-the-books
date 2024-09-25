@@ -18,6 +18,7 @@ function App() {
     getActivities().then((response) => setActivities(response.data));
   }, []);
 
+  // AddStudent and AddActivity will update the state of students and activities, respectively
   return (
     <div className="app-container">
       <h1>Battle of the Books</h1>
@@ -25,11 +26,12 @@ function App() {
       <Bookshelf students={students} setStudents={setStudents} />
 
       <AddActivity activities={activities} setActivities={setActivities} />
-      <ActivityList activities={activities} setActivities={setActivities} />  {/* Pass activities and setActivities */}
-      
+      <ActivityList activities={activities} setActivities={setActivities} />
+
+      {/* Pass students and activities to AssignActivity */}
       <AssignActivity students={students} activities={activities} />
 
-      <Leaderboard students={students} /> {/* Leaderboard now receives students prop */}
+      <Leaderboard students={students} />
     </div>
   );
 }

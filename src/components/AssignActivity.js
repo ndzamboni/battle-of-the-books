@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { getStudents, getActivities, assignPoints } from '../api';
+import React, { useState } from 'react';
+import { assignPoints } from '../api';
 
-const AssignActivity = () => {
-  const [students, setStudents] = useState([]);
-  const [activities, setActivities] = useState([]);
+const AssignActivity = ({ students, activities }) => {
   const [selectedStudent, setSelectedStudent] = useState('');
   const [selectedActivity, setSelectedActivity] = useState('');
-
-  useEffect(() => {
-    getStudents().then((response) => setStudents(response.data));
-    getActivities().then((response) => setActivities(response.data));
-  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

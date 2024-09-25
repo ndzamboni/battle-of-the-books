@@ -9,12 +9,15 @@ const ActivityList = ({ activities, setActivities }) => {
   };
 
   return (
-    <div>
+    <div className="activity-list">
       <h2>Activity List</h2>
       <ul>
         {activities.map((activity) => (
-          <li key={activity._id}>
-            {activity.name} - {activity.points} points
+          <li className="activity-card card" key={activity._id}>
+            <div>
+              <h3>{activity.name}</h3>
+              <p>{activity.points} points</p>
+            </div>
             <button onClick={() => handleDelete(activity._id)}>Delete</button>
           </li>
         ))}

@@ -8,12 +8,19 @@ router.get('/', async (req, res) => {
   res.json(students);
 });
 
-// Add a student
+// Add a student route
 router.post('/add', async (req, res) => {
-  const { name, avatar } = req.body;
-  const newStudent = new Student({ name, avatar });
-  await newStudent.save();
-  res.json(newStudent);
+  // Ensure you're extracting color from the req.body
+  const { name, avatar, color } = req.body;
+  
+  try {
+    // Ensure the student is created with the color property
+    const newStudent = new Student({ name, avatar, color });
+    await newStudent.save();
+    res.status(201).json(newStudent);
+  } catch (error) {
+    res.status(400).json({ error: 'Error adding student' });
+  }
 });
 
 // Add points to a student

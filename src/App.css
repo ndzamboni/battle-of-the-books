@@ -1,23 +1,51 @@
+/* Global Settings */
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f5f5f5;
+  background-color: #f0f0f0;
   margin: 0;
   padding: 0;
 }
 
-h1 {
+h1, h2 {
   text-align: center;
   color: #333;
-  margin: 20px 0;
+  margin-top: 20px;
+}
+
+/* Container */
+.app-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="color"],
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
 }
 
 button {
+  padding: 10px 20px;
+  border: none;
   background-color: #4CAF50;
   color: white;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
   cursor: pointer;
+  border-radius: 5px;
   transition: background-color 0.3s ease;
 }
 
@@ -25,20 +53,63 @@ button:hover {
   background-color: #45a049;
 }
 
-form {
-  text-align: center;
-  margin-bottom: 20px;
+/* Card Design for Lists */
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
 }
 
-input {
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
-  margin: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 250px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
 }
 
-.app-container {
-  text-align: center;
-  margin: 0 auto;
+li:last-child {
+  border-bottom: none;
 }
+
+/* Flexbox for Layout */
+.bookshelf, .leaderboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+/* Student and Activity Cards */
+.book, .activity-card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 220px;
+}
+
+.book img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.book h3, .activity-card h3 {
+  margin: 10px 0;
+  color: #333;
+}
+
+.book p, .activity-card p {
+  color: #555;
+}
+
