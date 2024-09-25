@@ -4,36 +4,61 @@ import Leaderboard from './components/Leaderboard';
 import AddStudent from './components/AddStudent';
 import AddActivity from './components/AddActivity';
 import ActivityList from './components/ActivityList';
-import AssignActivity from './components/AssignActivity'; 
+import AssignActivity from './components/AssignActivity';
 import { getStudents, getActivities } from './api';
 import './App.css';  // Global styles
 
 function App() {
-  const [students, setStudents] = useState([]); // Centralized state for students
-  const [activities, setActivities] = useState([]); // Centralized state for activities
-
+  const [students, setStudents] = useState([]);
+  const [activities, setActivities] = useState([]);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);  // Toggle state
+  
   useEffect(() => {
-    // Fetch students and activities when the app loads
     getStudents().then((response) => setStudents(response.data));
     getActivities().then((response) => setActivities(response.data));
   }, []);
-
-  // AddStudent and AddActivity will update the state of students and activities, respectively
+  
   return (
     <div className="app-container">
       <h1>Battle of the Books</h1>
-      <AddStudent students={students} setStudents={setStudents} />
-      <Bookshelf students={students} setStudents={setStudents} />
 
-      <AddActivity activities={activities} setActivities={setActivities} />
-      <ActivityList activities={activities} setActivities={setActivities} />
+      {/* Button to toggle between leaderboard and student/activity inputs */}
+      <button
+        onClick={() => setShowLeaderboard(!showLeaderboard)}
+        style={{
+          padding: '10px 20px',
+          backgroundColor: '#4CAF50',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          marginBottom: '20px',
+        }}
+        >
+        {showLeaderboard ? 'Go to Student/Activity Input' : 'Go to Leaderboard'}
+      </button>
 
-      {/* Pass students and activities to AssignActivity */}
-      <AssignActivity students={students} activities={activities} />
+      {/* Conditionally render based on the toggle */}
+      {!showLeaderboard ? (
+        <>
+          <AddStudent students={students} setStudents={setStudents} />
+          <Bookshelf students={students} setStudents={setStudents} />
+          <AddActivity activities={activities} setActivities={setActivities} />
+          <ActivityList activities={activities} setActivities={setActivities} />
+          <AssignActivity students={students} activities={activities} />
+        </>
+      ) : (
+        <Leaderboard students={students} />
+      )}
+      {/* Include the link to the Gravatar URL generator */}
+      <footer style={{ marginTop: '20px' }}>
+        <p>
+          Need an avatar? Generate one <a href="https://vinicius73.github.io/gravatar-url-generator/#/" target="_blank" rel="noopener noreferrer">here</a>.
+        </p>
+      </footer>
+      </div>
+      );
 
-      <Leaderboard students={students} />
-    </div>
-  );
 }
 
 export default App;
