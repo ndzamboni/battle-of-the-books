@@ -9,8 +9,16 @@ const AssignActivity = ({ students, activities }) => {
     e.preventDefault();
     if (selectedStudent && selectedActivity) {
       const activity = activities.find((act) => act._id === selectedActivity);
-      assignPoints(selectedStudent, { activityId: selectedActivity, points: activity.points }).then(() => {
-        alert('Activity assigned successfully');
+      assignPoints(selectedStudent, { activityId: selectedActivity, points: activity.points }).then((response) => {
+        const updatedStudent = response.data;
+        
+        // Award a badge for every 100 points
+        if (updatedStudent.totalPoints >= 100) {
+          // Add badge logic here (could be stored in the student's badges array)
+          updatedStudent.badges += Math.floor(updatedStudent.totalPoints / 100);  // Add badges
+        }
+
+        alert('Activity assigned and badges updated');
         setSelectedStudent('');
         setSelectedActivity('');
       });
