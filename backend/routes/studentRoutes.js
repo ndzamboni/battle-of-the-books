@@ -10,11 +10,9 @@ router.get('/', async (req, res) => {
 
 // Add a student route
 router.post('/add', async (req, res) => {
-  // Ensure you're extracting color from the req.body
   const { name, avatar, color } = req.body;
-  
+
   try {
-    // Ensure the student is created with the color property
     const newStudent = new Student({ name, avatar, color });
     await newStudent.save();
     res.status(201).json(newStudent);
@@ -23,16 +21,52 @@ router.post('/add', async (req, res) => {
   }
 });
 
-// Add points to a student
+// Add points to a student and award badges if necessary
 router.post('/:id/add-points', async (req, res) => {
   const { points, activityId } = req.body;
-  const student = await Student.findById(req.params.id);
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ error: 'Student not found' });
+    }
 
-  student.totalPoints += points;
-  student.completedActivities.push({ activityId, pointsEarned: points });
-  await student.save();
+    // Add points to the student's total
+    student.totalPoints += points;
 
-  res.json(student);
+    // Check if activityId is provided, and add the activity
+    if (activityId) {
+      student.completedActivities.push({ activityId, pointsEarned: points });
+    }
+
+    // Badge earning logic
+    const badgesToAward = [];
+    
+    // Points-based badge: Award 1 badge for every 50 points
+    const pointsBadgeCount = Math.floor(student.totalPoints / 50);
+    const currentPointsBadges = student.badges.filter(badge => badge.startsWith('Points Badge')).length;
+
+    if (pointsBadgeCount > currentPointsBadges) {
+      const pointsBadge = `Points Badge ${pointsBadgeCount * 50}`;
+      badgesToAward.push(pointsBadge);
+      student.badges.push(pointsBadge);
+    }
+
+    // Activity-based badge: Award 1 badge for every 5 completed activities
+    const activityBadgeCount = Math.floor(student.completedActivities.length / 5);
+    const currentActivityBadges = student.badges.filter(badge => badge.startsWith('Activity Badge')).length;
+
+    if (activityBadgeCount > currentActivityBadges) {
+      const activityBadge = `Activity Badge ${activityBadgeCount * 5} Activities`;
+      badgesToAward.push(activityBadge);
+      student.badges.push(activityBadge);
+    }
+
+    await student.save();
+
+    res.status(200).json({ student, earnedBadges: badgesToAward });
+  } catch (error) {
+    res.status(400).json({ error: 'Error assigning points' });
+  }
 });
 
 // Delete a student by ID

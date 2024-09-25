@@ -11,10 +11,15 @@ const Leaderboard = ({ students }) => {
             <li
               key={student._id}
               className="card"
-              style={{ backgroundColor: student.color || '#ffdd57' }}  // Apply student color, fallback to yellow if missing
+              style={{ backgroundColor: student.color || '#ffdd57' }}
             >
               <h3>{student.name}</h3>
               <p>{student.totalPoints} points</p>
+              <p>Badges: 
+                {student.badges.length > 0
+                  ? student.badges.map((badge, index) => <span key={index}>{badge}, </span>)
+                  : 'No Badges'}
+              </p>
             </li>
           ))}
       </ul>
