@@ -23,7 +23,9 @@ router.post('/add', async (req, res) => {
 
 // Add points to a student and award badges if necessary
 router.post('/:id/add-points', async (req, res) => {
-  const { points, activityId, timestamp } = req.body;  // Include timestamp for streak badges
+  const { points, activityId } = req.body;
+  const timestamp = new Date();  // Ensure timestamp is set when assigning points
+  
   try {
     const student = await Student.findById(req.params.id);
     if (!student) {
@@ -33,9 +35,9 @@ router.post('/:id/add-points', async (req, res) => {
     // Add points to the student's total
     student.totalPoints += points;
 
-    // Check if activityId is provided, and add the activity
+    // Add activity with points and timestamp
     if (activityId) {
-      student.completedActivities.push({ activityId, pointsEarned: points });
+      student.completedActivities.push({ activityId, pointsEarned: points, timestamp });
     }
 
     const badgesToAward = [];
@@ -53,16 +55,15 @@ router.post('/:id/add-points', async (req, res) => {
     }
 
     // Streak-Based Badges (consecutive days)
-    if (timestamp) {
-      const lastActivityDate = new Date(student.completedActivities[student.completedActivities.length - 1]?.timestamp);
-      const currentDate = new Date(timestamp);
-      const timeDiff = Math.abs(currentDate - lastActivityDate);
-      const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    if (student.completedActivities.length > 1) {
+      const lastActivityDate = new Date(student.completedActivities[student.completedActivities.length - 2]?.timestamp);
+      const currentActivityDate = new Date(timestamp);
+      const daysDiff = Math.ceil((currentActivityDate - lastActivityDate) / (1000 * 60 * 60 * 24));
 
       if (daysDiff === 1) {
         student.streak = (student.streak || 0) + 1;
       } else {
-        student.streak = 1;  // Reset streak if days are not consecutive
+        student.streak = 1;  // Reset streak if not consecutive
       }
 
       // Award streak badges based on streak length
@@ -103,6 +104,12 @@ router.post('/:id/remove-activity', async (req, res) => {
       return res.status(404).json({ error: 'Student not found' });
     }
 
+    // Find the activity to be removed and adjust the student's total points
+    const activityToRemove = student.completedActivities.find(activity => activity.activityId.toString() === activityId);
+    if (activityToRemove) {
+      student.totalPoints -= activityToRemove.pointsEarned;  // Subtract the points from the student's total
+    }
+
     // Remove the activity by filtering it out from the completedActivities array
     student.completedActivities = student.completedActivities.filter(activity => activity.activityId.toString() !== activityId);
 
@@ -112,6 +119,5 @@ router.post('/:id/remove-activity', async (req, res) => {
     res.status(400).json({ error: 'Error removing activity' });
   }
 });
-
 
 module.exports = router;

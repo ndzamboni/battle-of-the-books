@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { deleteStudent, removeActivityFromStudent } from '../api'; // Import API call to remove activity
+import { deleteStudent, removeActivityFromStudent } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faMedal, faFire, faTrophy, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'; // Add chevron icons for dropdown
+import { faStar, faMedal, faFire, faTrophy, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import './Bookshelf.css';
 
 const Bookshelf = ({ students, setStudents }) => {
-  const [expandedStudent, setExpandedStudent] = useState(null); // Track which student's activities are expanded
+  const [expandedStudent, setExpandedStudent] = useState(null);
 
   const handleDelete = (id) => {
     deleteStudent(id).then(() => {
@@ -19,7 +19,6 @@ const Bookshelf = ({ students, setStudents }) => {
     });
   };
 
-  // Helper function to render badges as icons
   const renderBadges = (badges) => {
     return badges.map((badge, index) => {
       if (badge.startsWith('Points Badge')) {
@@ -63,7 +62,6 @@ const Bookshelf = ({ students, setStudents }) => {
     });
   };
 
-  // Expandable dropdown to view activities
   const renderActivities = (student) => {
     return (
       <div className="activities-dropdown">
