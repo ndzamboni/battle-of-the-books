@@ -4,6 +4,11 @@ const api = axios.create({
   baseURL: 'http://localhost:5000',
 });
 
+// Remove activity from student
+export const removeActivityFromStudent = (studentId, activityId) => {
+  return api.post(`/students/${studentId}/remove-activity`, { activityId });
+};
+
 export const getStudents = () => api.get('/students');
 export const addStudent = (student) => api.post('/students/add', student);
 export const deleteStudent = (id) => api.delete(`/students/${id}`);
