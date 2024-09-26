@@ -8,3 +8,17 @@
     color: #fff;
   }
   
+
+  .book .fa-star {
+    color: gold;
+  }
+  
+  .book .fa-medal {
+    color: silver;
+  }
+  
+  .book .fa-star, .book .fa-medal {
+    margin-right: 8px;
+    font-size: 1.2em;
+  }
+  
