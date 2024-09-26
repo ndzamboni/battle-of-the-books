@@ -1,115 +1,133 @@
-/* Global Settings */
+/* General App Styling */
 body {
+  background-color: #2a2a2a; /* Dark, soft background */
+  color: #d3d3d3;  /* Softer text color to reduce contrast */
   font-family: 'Arial', sans-serif;
-  background-color: #f0f0f0;
   margin: 0;
   padding: 0;
 }
 
-h1, h2 {
-  text-align: center;
-  color: #333;
-  margin-top: 20px;
-}
-
-/* Container */
 .app-container {
-  width: 90%;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
+}
+
+/* Headings */
+h1, h3 {
+  color: #b0b0b0; /* Softer headings */
 }
 
 /* Forms */
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
-  max-width: 400px;
-  margin: 0 auto;
+  background-color: #3b3b3b; /* Slightly lighter than the body */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"],
-input[type="number"],
-input[type="color"],
-select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+input, select, button {
   width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+}
+
+input, select {
+  background-color: #4a4a4a;
+  color: #e0e0e0;
 }
 
 button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #5c5c5c; /* Dark button background */
+  color: #ffffff; /* Light text */
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #707070; /* Lighter hover state */
 }
 
-/* Card Design for Lists */
-.card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Bookshelf / Card Styling */
+.bookshelf, .card {
+  background-color: #3a3a3a; /* Softer background for cards */
+  color: #e0e0e0;
+  border-radius: 8px;
   padding: 20px;
-  margin: 10px;
+  margin: 20px 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-ul {
-  list-style: none;
+img {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.activities-dropdown {
+  background-color: #454545; /* Slightly darker dropdown */
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.expand-btn {
+  background-color: #5c5c5c; /* Match the button style */
+  color: #ffffff;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+ul.activities-list {
+  list-style-type: none;
   padding: 0;
 }
 
 li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #555;
+}
+
+li button {
+  background-color: #707070;
+  color: white;
+  padding: 5px 10px;
+}
+
+/* Leaderboard */
+.leaderboard {
+  background-color: #3a3a3a;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.card {
+  background-color: #4a4a4a;
   padding: 10px;
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-li:last-child {
-  border-bottom: none;
+/* Badge Styling */
+.fa-star, .fa-medal, .fa-fire, .fa-trophy {
+  color: #e0a800; /* Softer gold/yellow tones for badges */
 }
 
-/* Flexbox for Layout */
-.bookshelf, .leaderboard {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 20px;
+.fa-chevron-up, .fa-chevron-down {
+  color: #d3d3d3; /* Match text color */
 }
 
-/* Student and Activity Cards */
-.book, .activity-card {
-  background-color: #fff;
+/* Darker Scrollbars */
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #2a2a2a;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #5c5c5c;
   border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 220px;
 }
-
-.book img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-}
-
-.book h3, .activity-card h3 {
-  margin: 10px 0;
-  color: #333;
-}
-
-.book p, .activity-card p {
-  color: #555;
-}
-
