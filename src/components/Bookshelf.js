@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deleteStudent, removeActivityFromStudent } from '../api';
+import { deleteStudent, removeActivityFromStudent } from '../api'; // Import API call to remove activity
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faMedal, faFire, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import Modal from './Modal';
@@ -20,6 +20,7 @@ const Bookshelf = ({ students, setStudents, activities }) => {
     });
   };
 
+  // Helper function to render badges as icons
   const renderBadges = (badges) => {
     return badges.map((badge, index) => {
       if (badge.startsWith('Points Badge')) {
