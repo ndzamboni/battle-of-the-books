@@ -45,7 +45,8 @@ function App() {
           <Bookshelf students={students} setStudents={setStudents} />
           <AddActivity activities={activities} setActivities={setActivities} />
           <ActivityList activities={activities} setActivities={setActivities} />
-          <AssignActivity students={students} activities={activities} />
+          {/* Pass setStudents to AssignActivity */}
+          <AssignActivity students={students} activities={activities} setStudents={setStudents} />
         </>
       ) : (
         <Leaderboard students={students} />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { assignPoints } from '../api';
 
-const AssignActivity = ({ students, activities }) => {
+const AssignActivity = ({ students, activities, setStudents }) => {  // Added setStudents prop
   const [selectedStudent, setSelectedStudent] = useState('');
   const [selectedActivity, setSelectedActivity] = useState('');
 
@@ -11,12 +11,9 @@ const AssignActivity = ({ students, activities }) => {
       const activity = activities.find((act) => act._id === selectedActivity);
       assignPoints(selectedStudent, { activityId: selectedActivity, points: activity.points }).then((response) => {
         const updatedStudent = response.data;
-        
-        // Award a badge for every 100 points
-        if (updatedStudent.totalPoints >= 100) {
-          // Add badge logic here (could be stored in the student's badges array)
-          updatedStudent.badges += Math.floor(updatedStudent.totalPoints / 100);  // Add badges
-        }
+
+        // Update the students list after assigning the activity
+        setStudents(students.map(student => student._id === updatedStudent._id ? updatedStudent : student));
 
         alert('Activity assigned and badges updated');
         setSelectedStudent('');
