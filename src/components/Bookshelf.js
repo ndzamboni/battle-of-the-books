@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { deleteStudent, removeActivityFromStudent } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faMedal, faFire, faTrophy, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faMedal, faFire, faTrophy } from '@fortawesome/free-solid-svg-icons';
+import Modal from './Modal';
 import './Bookshelf.css';
 
-const Bookshelf = ({ students, setStudents }) => {
-  const [expandedStudent, setExpandedStudent] = useState(null);
+const Bookshelf = ({ students, setStudents, activities }) => {
+  const [selectedStudent, setSelectedStudent] = useState(null); // Modal state
 
   const handleDelete = (id) => {
     deleteStudent(id).then(() => {
@@ -62,40 +63,6 @@ const Bookshelf = ({ students, setStudents }) => {
     });
   };
 
-  const renderActivities = (student) => {
-    return (
-      <div className="activities-dropdown">
-        <button
-          className="expand-btn"
-          onClick={() => setExpandedStudent(expandedStudent === student._id ? null : student._id)}
-        >
-          {expandedStudent === student._id ? (
-            <>
-              <FontAwesomeIcon icon={faChevronUp} /> Hide Activities
-            </>
-          ) : (
-            <>
-              <FontAwesomeIcon icon={faChevronDown} /> Show Activities
-            </>
-          )}
-        </button>
-
-        {expandedStudent === student._id && (
-          <ul className="activities-list">
-            {student.completedActivities.map((activity, index) => (
-              <li key={index}>
-                Activity ID: {activity.activityId}, Points Earned: {activity.pointsEarned}
-                <button onClick={() => handleRemoveActivity(student._id, activity.activityId)}>
-                  Remove Activity
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    );
-  };
-
   return (
     <div className="bookshelf">
       {students.map((student) => (
@@ -108,10 +75,37 @@ const Bookshelf = ({ students, setStudents }) => {
           <h3>{student.name}</h3>
           <p>Points: {student.totalPoints}</p>
           <p>Badges: {student.badges.length > 0 ? renderBadges(student.badges) : 'No Badges'}</p>
-          {renderActivities(student)}
+
+          {/* Button to trigger modal */}
+          <button onClick={() => setSelectedStudent(student)}>Show Activities</button>
+
           <button onClick={() => handleDelete(student._id)}>Delete Student</button>
         </div>
       ))}
+
+      {/* Modal for displaying activities */}
+      {selectedStudent && (
+        <Modal
+          isOpen={!!selectedStudent}
+          onClose={() => setSelectedStudent(null)}
+          title={`${selectedStudent.name}'s Activities`}
+        >
+          <ul>
+            {selectedStudent.completedActivities.map((activity, index) => {
+              // Defensive check to ensure activities is defined
+              const activityName = activities?.find((act) => act._id === activity.activityId)?.name || "Unknown Activity";
+              return (
+                <li key={index}>
+                  {activityName}, Points Earned: {activity.pointsEarned}
+                  <button onClick={() => handleRemoveActivity(selectedStudent._id, activity.activityId)}>
+                    Remove Activity
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </Modal>
+      )}
     </div>
   );
 };

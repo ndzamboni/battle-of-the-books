@@ -1,24 +1,58 @@
+/* General badge styling */
 .badge {
-    display: inline-block;
-    background-color: #ffb74d;
-    padding: 5px 10px;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    margin: 0 5px;
-    color: #fff;
-  }
-  
+  display: inline-block;
+  background-color: #ffb74d; /* Badge background color */
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  margin: 0 5px;
+  color: #fff; /* White text color for badge labels */
+}
 
-  .book .fa-star {
-    color: gold;
-  }
-  
-  .book .fa-medal {
-    color: silver;
-  }
-  
-  .book .fa-star, .book .fa-medal {
-    margin-right: 8px;
-    font-size: 1.2em;
-  }
-  
+/* Specific icon styles for different badges */
+
+/* Points Badge icon styling */
+.book .fa-star {
+  color: gold !important; /* Gold color for Points Badge */
+}
+
+/* Activity Badge icon styling */
+.book .fa-medal {
+  color: silver !important; /* Silver color for Activity Badge */
+}
+
+/* Streak Badge icon styling */
+.book .fa-fire {
+  color: orange !important; /* Orange color for streak badges */
+}
+
+/* Trophy Badge icon styling (e.g., for 1,000 Points Badge) */
+.book .fa-trophy {
+  color: blue !important; /* Blue color for trophies */
+}
+
+/* Ensure all icons have proper margins and font size */
+.book .fa-star,
+.book .fa-medal,
+.book .fa-fire,
+.book .fa-trophy {
+  margin-right: 8px; /* Space between icons */
+  font-size: 1.2em; /* Increase icon size for better visibility */
+  display: inline-block; /* Ensure icons are displayed inline */
+}
+
+/* Fallback styling for when FontAwesome icons are not available */
+.book .fa-star:before, 
+.book .fa-medal:before, 
+.book .fa-fire:before, 
+.book .fa-trophy:before {
+  content: "🏅"; /* Fallback emoji if FontAwesome icons are unavailable */
+  color: inherit; /* Use the same color as the badge */
+  margin-right: 8px;
+}
+
+/* Add hover effect to badge for better interaction */
+.badge:hover {
+  background-color: #ffa726; /* Slightly darker orange on hover */
+  cursor: pointer;
+}

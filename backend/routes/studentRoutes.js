@@ -21,7 +21,6 @@ router.post('/add', async (req, res) => {
   }
 });
 
-// Add points to a student and award badges if necessary
 router.post('/:id/add-points', async (req, res) => {
   const { points, activityId } = req.body;
   const timestamp = new Date();  // Ensure timestamp is set when assigning points
@@ -43,15 +42,35 @@ router.post('/:id/add-points', async (req, res) => {
     const badgesToAward = [];
 
     // Points-Based Milestone Badges
+    if (student.totalPoints >= 100 && !student.badges.includes("100 Points Badge")) {
+      badgesToAward.push("100 Points Badge");
+      student.badges.push("100 Points Badge");
+    }
+    if (student.totalPoints >= 500 && !student.badges.includes("500 Points Badge")) {
+      badgesToAward.push("500 Points Badge");
+      student.badges.push("500 Points Badge");
+    }
     if (student.totalPoints >= 1000 && !student.badges.includes("1,000 Points Badge")) {
       badgesToAward.push("1,000 Points Badge");
       student.badges.push("1,000 Points Badge");
     }
+    if (student.totalPoints >= 2000 && !student.badges.includes("2,000 Points Badge")) {
+      badgesToAward.push("2,000 Points Badge");
+      student.badges.push("2,000 Points Badge");
+    }
 
-    // Activity Milestone Badge (50 Activities)
+    // Activity-Based Milestone Badges
+    if (student.completedActivities.length >= 10 && !student.badges.includes("10 Activities Badge")) {
+      badgesToAward.push("10 Activities Badge");
+      student.badges.push("10 Activities Badge");
+    }
     if (student.completedActivities.length >= 50 && !student.badges.includes("50 Activities Badge")) {
       badgesToAward.push("50 Activities Badge");
       student.badges.push("50 Activities Badge");
+    }
+    if (student.completedActivities.length >= 100 && !student.badges.includes("100 Activities Badge")) {
+      badgesToAward.push("100 Activities Badge");
+      student.badges.push("100 Activities Badge");
     }
 
     // Streak-Based Badges (consecutive days)
@@ -83,6 +102,7 @@ router.post('/:id/add-points', async (req, res) => {
     res.status(400).json({ error: 'Error assigning points' });
   }
 });
+
 
 // Delete a student by ID
 router.delete('/:id', async (req, res) => {
