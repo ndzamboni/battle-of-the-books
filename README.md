@@ -1,70 +1,117 @@
-# Getting Started with Create React App
+# Battle of the Books Tracker
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a web application for tracking student participation and activities in a "Battle of the Books" style competition. The app allows you to add students, assign them activities, track their points, and award them badges based on their progress. The app features dynamic updates, activity management, and a leaderboard to visualize student progress.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Screenshots](#screenshots)
+- [Future Improvements](#future-improvements)
+- [License](#license)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Add Students**: Add new students with a name, avatar URL, and color to represent them.
+- **Activity Management**: Assign activities to students, track their points, and remove activities as needed.
+- **Leaderboard**: Toggle between the leaderboard and input section to view student rankings based on points.
+- **Badges**: Award students badges for reaching certain milestones (e.g., 100 points, 50 activities).
+- **Dynamic Updates**: No need to refresh; changes are reflected immediately in the UI.
+- **Modals**: Show and manage student activities using a modal window.
+- **Remove Activities**: Remove activities from a student’s completed activities list.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Technologies Used
 
-### `npm test`
+- **Frontend**: React.js (with FontAwesome for icons)
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Styling**: Custom CSS
+- **State Management**: React Hooks
+- **API Calls**: Axios for HTTP requests
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+### Prerequisites
+- Node.js installed on your machine
+- MongoDB instance running locally or in the cloud
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Clone the repository
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/your-username/battle-of-the-books.git
+cd battle-of-the-books
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Install Dependencies
+For the Frontend:
+bash
+Copy code
+cd frontend
+npm install
+For the Backend:
+bash
+Copy code
+cd ../backend
+npm install
+Configure MongoDB
+Make sure you have a MongoDB instance running locally or in the cloud. Update your MongoDB connection string in backend/server.js:
 
-### `npm run eject`
+js
+Copy code
+mongoose.connect('mongodb://localhost:27017/battle-of-books', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+Start the Application
+Start the Backend
+bash
+Copy code
+cd backend
+npm start
+Start the Frontend
+bash
+Copy code
+cd ../frontend
+npm start
+The app will be running at http://localhost:3000 with the backend available at http://localhost:5000.
+## Usage
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Add Students**: Enter the student’s name, avatar URL, and color, and click "Add Student."
+2. **Add Activities**: Add activities with names and points that students can complete.
+3. **Assign Activities**: Assign activities to students and track their points.
+4. **Leaderboard**: Toggle between the input forms and the leaderboard to see how students are performing.
+5. **Badges**: Students will automatically earn badges for milestones like points and activities completed.
+6. **Manage Activities**: Use the "Show Activities" button to see and remove activities from a student's record.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## API Endpoints
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The backend provides several REST API endpoints:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- `GET /students`: Fetch all students
+- `POST /students/add`: Add a new student
+- `POST /students/:id/add-points`: Assign points and activities to a student
+- `POST /students/:id/remove-activity`: Remove an activity from a student’s record
+- `DELETE /students/:id`: Delete a student
+- `GET /activities`: Fetch all activities
+- `POST /activities/add`: Add a new activity
+- `DELETE /activities/:id`: Delete an activity
 
-## Learn More
+## Screenshots
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![Student Management](path/to/student-management-screenshot.png)
+![Leaderboard](path/to/leaderboard-screenshot.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Future Improvements
 
-### Code Splitting
+- **Authentication**: Add login and user authentication so multiple users can manage their own students.
+- **Advanced Badge System**: Add more complex badge logic with more types of achievements.
+- **Activity Details**: Allow users to provide detailed feedback or notes for each activity assigned to a student.
+- **Multi-Class Support**: Allow managing multiple classes or groups of students.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## License
 
-### Analyzing the Bundle Size
+This project is licensed under the MIT License.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
