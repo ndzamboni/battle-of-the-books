@@ -21,6 +21,7 @@ router.post('/add', async (req, res) => {
   }
 });
 
+// Add points to a student and award badges if necessary
 router.post('/:id/add-points', async (req, res) => {
   const { points, activityId } = req.body;
   const timestamp = new Date();  // Ensure timestamp is set when assigning points
@@ -102,7 +103,6 @@ router.post('/:id/add-points', async (req, res) => {
     res.status(400).json({ error: 'Error assigning points' });
   }
 });
-
 
 // Delete a student by ID
 router.delete('/:id', async (req, res) => {
