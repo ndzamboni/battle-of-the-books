@@ -3,7 +3,6 @@ import Bookshelf from './components/Bookshelf';
 import Leaderboard from './components/Leaderboard';
 import AddStudent from './components/AddStudent';
 import AddActivity from './components/AddActivity';
-import ActivityList from './components/ActivityList';
 import AssignActivity from './components/AssignActivity';
 import { getStudents, getActivities } from './api';
 import './App.css';  // Global styles
@@ -44,8 +43,8 @@ function App() {
           <AddStudent students={students} setStudents={setStudents} />
           <Bookshelf students={students} setStudents={setStudents} />
           <AddActivity activities={activities} setActivities={setActivities} />
-          <ActivityList activities={activities} setActivities={setActivities} />
-          {/* Pass setStudents to AssignActivity */}
+          {/* Removed ActivityList from rendering */}
+          {/* <ActivityList activities={activities} setActivities={setActivities} /> */}
           <AssignActivity students={students} activities={activities} setStudents={setStudents} />
         </>
       ) : (
@@ -59,7 +58,6 @@ function App() {
       </footer>
       </div>
       );
-
 }
 
 export default App;
