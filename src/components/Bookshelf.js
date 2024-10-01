@@ -1,9 +1,41 @@
 import React, { useState } from 'react';
-import { deleteStudent, removeActivityFromStudent } from '../api'; // Import API calls
+import { deleteStudent, removeActivityFromStudent } from '../api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faMedal, faFire, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import Modal from './Modal';
 import './Bookshelf.css';
+
+// Create a mapping between badge names and icons
+const badgeIconMapping = {
+  "100 Points Badge": { icon: faStar, color: 'gold' },
+  "500 Points Badge": { icon: faStar, color: 'gold' },
+  "1,000 Points Badge": { icon: faStar, color: 'gold' },
+  "2,000 Points Badge": { icon: faStar, color: 'gold' },
+  "10 Activities Badge": { icon: faMedal, color: 'silver' },
+  "50 Activities Badge": { icon: faMedal, color: 'silver' },
+  "100 Activities Badge": { icon: faMedal, color: 'silver' },
+  "3-Day Streak Badge": { icon: faFire, color: 'orange' },
+  "Week Streak Badge": { icon: faFire, color: 'orange' },
+  "1,000 Points Badge": { icon: faTrophy, color: 'blue' },
+  "50 Activities Badge": { icon: faTrophy, color: 'blue' },
+};
+
+// Helper function to render badges using the mapping
+const renderBadges = (badges) => {
+  return badges.map((badge, index) => {
+    const badgeDetails = badgeIconMapping[badge];
+    if (!badgeDetails) return null;
+
+    return (
+      <FontAwesomeIcon
+        key={index}
+        icon={badgeDetails.icon}
+        title={badge}
+        style={{ color: badgeDetails.color, marginRight: '8px' }}
+      />
+    );
+  });
+};
 
 const Bookshelf = ({ students, setStudents, activities }) => {
   const [selectedStudent, setSelectedStudent] = useState(null); // Modal state
@@ -17,50 +49,6 @@ const Bookshelf = ({ students, setStudents, activities }) => {
   const handleRemoveActivity = (studentId, activityId) => {
     removeActivityFromStudent(studentId, activityId).then((updatedStudent) => {
       setStudents(students.map(student => student._id === updatedStudent.data._id ? updatedStudent.data : student));
-    });
-  };
-
-  // Helper function to render badges as icons
-  const renderBadges = (badges) => {
-    return badges.map((badge, index) => {
-      if (badge.startsWith('Points Badge')) {
-        return (
-          <FontAwesomeIcon
-            key={index}
-            icon={faStar}
-            title={badge}
-            style={{ color: 'gold', marginRight: '8px' }}
-          />
-        );
-      } else if (badge.startsWith('Activity Badge')) {
-        return (
-          <FontAwesomeIcon
-            key={index}
-            icon={faMedal}
-            title={badge}
-            style={{ color: 'silver', marginRight: '8px' }}
-          />
-        );
-      } else if (badge.startsWith('3-Day Streak Badge') || badge.startsWith('Week Streak Badge')) {
-        return (
-          <FontAwesomeIcon
-            key={index}
-            icon={faFire}
-            title={badge}
-            style={{ color: 'orange', marginRight: '8px' }}
-          />
-        );
-      } else if (badge === '1,000 Points Badge' || badge === '50 Activities Badge') {
-        return (
-          <FontAwesomeIcon
-            key={index}
-            icon={faTrophy}
-            title={badge}
-            style={{ color: 'blue', marginRight: '8px' }}
-          />
-        );
-      }
-      return null;
     });
   };
 
