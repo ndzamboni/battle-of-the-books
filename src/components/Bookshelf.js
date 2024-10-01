@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deleteStudent, removeActivityFromStudent } from '../api'; // Import API call to remove activity
+import { deleteStudent, removeActivityFromStudent } from '../api'; // Import API calls
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faMedal, faFire, faTrophy } from '@fortawesome/free-solid-svg-icons';
 import Modal from './Modal';
@@ -93,7 +93,6 @@ const Bookshelf = ({ students, setStudents, activities }) => {
         >
           <ul>
             {selectedStudent.completedActivities.map((activity, index) => {
-              // Defensive check to ensure activities is defined
               const activityName = activities?.find((act) => act._id === activity.activityId)?.name || "Unknown Activity";
               return (
                 <li key={index}>
