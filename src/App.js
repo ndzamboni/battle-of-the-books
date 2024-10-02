@@ -22,6 +22,13 @@ function App() {
 
   return (
     <div className="app-container">
+      {/* Include the link to the Gravatar URL generator at the top */}
+      <header style={{ marginBottom: '20px' }}>
+        <p>
+          Need an avatar? Generate one <a href="https://vinicius73.github.io/gravatar-url-generator/#/" target="_blank" rel="noopener noreferrer">here</a>.
+        </p>
+      </header>
+
       <h1>Battle of the Books</h1>
 
       {/* Button to toggle between leaderboard and student/activity inputs */}
@@ -78,13 +85,6 @@ function App() {
           <ActivityList activities={activities} setActivities={setActivities} />
         </Modal>
       )}
-
-      {/* Include the link to the Gravatar URL generator */}
-      <footer style={{ marginTop: '20px' }}>
-        <p>
-          Need an avatar? Generate one <a href="https://vinicius73.github.io/gravatar-url-generator/#/" target="_blank" rel="noopener noreferrer">here</a>.
-        </p>
-      </footer>
     </div>
   );
 }
