@@ -1,5 +1,5 @@
 import React from 'react';
-import './Modal.css'; // Ensure the CSS is imported
+import './Modal.css';  // Add CSS to style the modal
 
 const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
@@ -8,8 +8,10 @@ const Modal = ({ isOpen, onClose, title, children }) => {
     <div className="modal-overlay">
       <div className="modal-content">
         <h2>{title}</h2>
-        <button onClick={onClose} className="modal-close">×</button> {/* Ensure it's a proper close icon */}
-        <div className="modal-body">{children}</div>
+        <button onClick={onClose} className="modal-close">×</button>
+        <div className="modal-body">
+          {children}
+        </div>
       </div>
     </div>
   );
