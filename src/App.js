@@ -66,10 +66,16 @@ function App() {
       {/* Conditionally render based on the toggle */}
       {!showLeaderboard ? (
         <>
-          <AddStudent students={students} setStudents={setStudents} />
+          <div className="form-container">
+            <AddStudent students={students} setStudents={setStudents} />
+          </div>
           <Bookshelf students={students} setStudents={setStudents} />
-          <AddActivity activities={activities} setActivities={setActivities} />
-          <AssignActivity students={students} activities={activities} setStudents={setStudents} />
+          <div className="form-container">
+            <AddActivity activities={activities} setActivities={setActivities} />
+          </div>
+          <div className="form-container">
+            <AssignActivity students={students} activities={activities} setStudents={setStudents} />
+          </div>
         </>
       ) : (
         <Leaderboard students={students} />
