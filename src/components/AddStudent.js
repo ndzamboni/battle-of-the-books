@@ -10,7 +10,10 @@ const AddStudent = ({ students, setStudents }) => {
     e.preventDefault();
     try {
       const response = await addStudent({ name, avatar, color });
-      
+
+      // Log the full response to see what's returned from the API
+      console.log('API response:', response);
+
       // Check if the response and data are not null or undefined
       if (response && response.data) {
         setStudents([...students, response.data]);
@@ -44,7 +47,8 @@ const AddStudent = ({ students, setStudents }) => {
         onChange={(e) => setAvatar(e.target.value)}
       />
       <input
-        type="color"
+        type="text"
+        placeholder="Color"
         value={color}
         onChange={(e) => setColor(e.target.value)}
       />
