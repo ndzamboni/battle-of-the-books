@@ -3,34 +3,37 @@ import { addActivity } from '../api';
 
 const AddActivity = ({ activities, setActivities }) => {
   const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [points, setPoints] = useState(0);
+  const [points, setPoints] = useState('');
 
-  const handleSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    addActivity({ name, description, points }).then((response) => {
-      setName('');
-      setDescription('');
-      setPoints(0);
-      // Add the new activity to the activities list
-      setActivities([...activities, response.data]);
-    });
+    try {
+      const response = await addActivity({ name, points });
+
+      // Check if the response and data are not null or undefined
+      if (response && response.data) {
+        setActivities([...activities, response.data]);
+        setName('');
+        setPoints('');
+      } else {
+        console.error('Unexpected response:', response);
+        alert('There was an error adding the activity. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error adding activity:', error);
+      alert('An error occurred. Please check your input and try again.');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={onSubmit}>
+      <h3>Add Activity</h3>
       <input
         type="text"
         placeholder="Activity Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
-      />
-      <input
-        type="text"
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
       />
       <input
         type="number"
