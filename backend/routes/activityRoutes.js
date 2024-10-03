@@ -1,30 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const Activity = require('../models/activityModel');
 
 // Get all activities
 router.get('/', async (req, res) => {
-  const activities = await Activity.find();
+  const { data: activities, error } = await req.supabase.from('activities').select('*');
+  if (error) return res.status(400).json({ error: 'Error fetching activities' });
   res.json(activities);
 });
 
 // Add an activity
 router.post('/add', async (req, res) => {
   const { name, description, points } = req.body;
-  const newActivity = new Activity({ name, description, points });
-  await newActivity.save();
+  const { data: newActivity, error } = await req.supabase
+    .from('activities')
+    .insert({ name, description, points })
+    .single();
+
+  if (error) return res.status(400).json({ error: 'Error adding activity' });
   res.json(newActivity);
 });
 
 // Delete an activity by ID
 router.delete('/:id', async (req, res) => {
-  try {
-    const activity = await Activity.findByIdAndDelete(req.params.id);
-    if (!activity) return res.status(404).json({ message: 'Activity not found' });
-    res.json({ message: 'Activity deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting activity' });
-  }
+  const { error } = await req.supabase
+    .from('activities')
+    .delete()
+    .eq('id', req.params.id);
+
+  if (error) return res.status(500).json({ message: 'Error deleting activity' });
+  res.json({ message: 'Activity deleted successfully' });
 });
 
 module.exports = router;
