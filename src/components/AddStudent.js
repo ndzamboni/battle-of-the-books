@@ -4,46 +4,52 @@ import { addStudent } from '../api';
 const AddStudent = ({ students, setStudents }) => {
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState('');
-  const [color, setColor] = useState('#ff0000'); // Default color
+  const [color, setColor] = useState('');
 
-  const handleSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-
-    // Ensure the color, name, and avatar are correctly passed
-    addStudent({ name, avatar, color }).then((response) => {
-      setName('');
-      setAvatar('');
-      setColor('#ff0000'); // Reset color picker after submission
-      setStudents([...students, response.data]);  // Update student list with the new student
-    });
+    try {
+      const response = await addStudent({ name, avatar, color });
+      
+      // Check if the response and data are not null or undefined
+      if (response && response.data) {
+        setStudents([...students, response.data]);
+        setName('');
+        setAvatar('');
+        setColor('');
+      } else {
+        console.error('Unexpected response:', response);
+        alert('There was an error adding the student. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error adding student:', error);
+      alert('An error occurred. Please check your input and try again.');
+    }
   };
 
   return (
-    <div className="add-student-form card">
-      <h2>Add a New Student</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Student Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Avatar URL"
-          value={avatar}
-          onChange={(e) => setAvatar(e.target.value)}
-        />
-        <label>Pick a Color:</label>
-        <input
-          type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}  // Color picker input
-        />
-        <button type="submit">Add Student</button>
-      </form>
-    </div>
+    <form onSubmit={onSubmit}>
+      <h3>Add Student</h3>
+      <input
+        type="text"
+        placeholder="Student Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Avatar URL"
+        value={avatar}
+        onChange={(e) => setAvatar(e.target.value)}
+      />
+      <input
+        type="color"
+        value={color}
+        onChange={(e) => setColor(e.target.value)}
+      />
+      <button type="submit">Add Student</button>
+    </form>
   );
 };
 
