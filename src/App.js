@@ -6,7 +6,7 @@ import AddActivity from './components/AddActivity';
 import AssignActivity from './components/AssignActivity';
 import ActivityList from './components/ActivityList'; // Import ActivityList for modal
 import Modal from './components/Modal';  // Import Modal component
-import { getStudents, getActivities } from './api';
+import { supabase } from './supabaseClient';  // Import Supabase client
 import './App.css';  // Global styles
 
 function App() {
@@ -15,9 +15,35 @@ function App() {
   const [showLeaderboard, setShowLeaderboard] = useState(false);  // Toggle state
   const [showManageActivities, setShowManageActivities] = useState(false); // State for managing activities
 
+  // Fetch students from Supabase
+  const fetchStudents = async () => {
+    const { data, error } = await supabase
+      .from('students')
+      .select('*');
+
+    if (error) {
+      console.error('Error fetching students:', error);
+    } else {
+      setStudents(data);
+    }
+  };
+
+  // Fetch activities from Supabase
+  const fetchActivities = async () => {
+    const { data, error } = await supabase
+      .from('activities')
+      .select('*');
+
+    if (error) {
+      console.error('Error fetching activities:', error);
+    } else {
+      setActivities(data);
+    }
+  };
+
   useEffect(() => {
-    getStudents().then((response) => setStudents(response.data));
-    getActivities().then((response) => setActivities(response.data));
+    fetchStudents();
+    fetchActivities();
   }, []);
 
   return (
