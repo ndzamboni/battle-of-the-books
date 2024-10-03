@@ -22,6 +22,8 @@ const badgeIconMapping = {
 
 // Helper function to render badges using the mapping
 const renderBadges = (badges) => {
+  if (!badges || badges.length === 0) return <p>No Badges</p>;
+
   return badges.map((badge, index) => {
     const badgeDetails = badgeIconMapping[badge];
     if (!badgeDetails) return null;
@@ -54,23 +56,27 @@ const Bookshelf = ({ students, setStudents, activities }) => {
 
   return (
     <div className="bookshelf">
-      {students.map((student) => (
-        <div
-          className="book card"
-          key={student._id}
-          style={{ backgroundColor: student.color || '#ffdd57' }}
-        >
-          <img src={student.avatar} alt={`${student.name}'s avatar`} />
-          <h3>{student.name}</h3>
-          <p>Points: {student.totalPoints}</p>
-          <p>Badges: {student.badges.length > 0 ? renderBadges(student.badges) : 'No Badges'}</p>
+      {students && students.length > 0 ? (
+        students.map((student) => (
+          <div
+            className="book card"
+            key={student._id}
+            style={{ backgroundColor: student.color || '#ffdd57' }}
+          >
+            <img src={student.avatar} alt={`${student.name}'s avatar`} />
+            <h3>{student.name}</h3>
+            <p>Points: {student.totalPoints}</p>
+            <p>Badges: {renderBadges(student.badges)}</p>
 
-          {/* Button to trigger modal */}
-          <button onClick={() => setSelectedStudent(student)}>Show Activities</button>
+            {/* Button to trigger modal */}
+            <button onClick={() => setSelectedStudent(student)}>Show Activities</button>
 
-          <button onClick={() => handleDelete(student._id)}>Delete Student</button>
-        </div>
-      ))}
+            <button onClick={() => handleDelete(student._id)}>Delete Student</button>
+          </div>
+        ))
+      ) : (
+        <p>No students available.</p>
+      )}
 
       {/* Modal for displaying activities */}
       {selectedStudent && (
@@ -80,17 +86,21 @@ const Bookshelf = ({ students, setStudents, activities }) => {
           title={`${selectedStudent.name}'s Activities`}
         >
           <ul>
-            {selectedStudent.completedActivities.map((activity, index) => {
-              const activityName = activities?.find((act) => act._id === activity.activityId)?.name || "Unknown Activity";
-              return (
-                <li key={index}>
-                  {activityName}, Points Earned: {activity.pointsEarned}
-                  <button onClick={() => handleRemoveActivity(selectedStudent._id, activity.activityId)}>
-                    Remove Activity
-                  </button>
-                </li>
-              );
-            })}
+            {selectedStudent.completedActivities && selectedStudent.completedActivities.length > 0 ? (
+              selectedStudent.completedActivities.map((activity, index) => {
+                const activityName = activities?.find((act) => act._id === activity.activityId)?.name || "Unknown Activity";
+                return (
+                  <li key={index}>
+                    {activityName}, Points Earned: {activity.pointsEarned}
+                    <button onClick={() => handleRemoveActivity(selectedStudent._id, activity.activityId)}>
+                      Remove Activity
+                    </button>
+                  </li>
+                );
+              })
+            ) : (
+              <p>No activities completed yet.</p>
+            )}
           </ul>
         </Modal>
       )}
