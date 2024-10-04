@@ -43,14 +43,27 @@ const Bookshelf = ({ students, setStudents, activities }) => {
   const [selectedStudent, setSelectedStudent] = useState(null); // Modal state
 
   const handleDelete = (id) => {
+    if (!id) {
+      console.error('Student ID is missing');
+      return;
+    }
     deleteStudent(id).then(() => {
       setStudents(students.filter((student) => student._id !== id));
+    }).catch(error => {
+      console.error('Error deleting student:', error);
     });
   };
 
+
   const handleRemoveActivity = (studentId, activityId) => {
+    if (!studentId || !activityId) {
+      console.error('Student ID or Activity ID is missing');
+      return;
+    }
     removeActivityFromStudent(studentId, activityId).then((updatedStudent) => {
       setStudents(students.map(student => student._id === updatedStudent.data._id ? updatedStudent.data : student));
+    }).catch(error => {
+      console.error('Error removing activity:', error);
     });
   };
 
