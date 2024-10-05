@@ -43,38 +43,41 @@ This project is a web application for tracking student participation and activit
 ```bash
 git clone https://github.com/your-username/battle-of-the-books.git
 cd battle-of-the-books
-
+```
 Install Dependencies
 For the Frontend:
-bash
-Copy code
+```bash
 cd frontend
 npm install
+```
 For the Backend:
-bash
-Copy code
+```bash
 cd ../backend
 npm install
+```
 Configure MongoDB
 Make sure you have a MongoDB instance running locally or in the cloud. Update your MongoDB connection string in backend/server.js:
 
-js
-Copy code
+```js
 mongoose.connect('mongodb://localhost:27017/battle-of-books', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+```
+
 Start the Application
 Start the Backend
-bash
-Copy code
+
+```bash
 cd backend
 npm start
+```
 Start the Frontend
-bash
-Copy code
+```bash
 cd ../frontend
 npm start
+```
+
 The app will be running at http://localhost:3000 with the backend available at http://localhost:5000.
 ## Usage
 
