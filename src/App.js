@@ -6,7 +6,7 @@ import AddActivity from './components/AddActivity';
 import AssignActivity from './components/AssignActivity';
 import ActivityList from './components/ActivityList'; // Import ActivityList for modal
 import Modal from './components/Modal';  // Import Modal component
-import { supabase } from './supabaseClient';  // Import Supabase client
+import { getStudents, getActivities } from './api';  // Import your MongoDB API functions
 import './App.css';  // Global styles
 
 function App() {
@@ -15,29 +15,23 @@ function App() {
   const [showLeaderboard, setShowLeaderboard] = useState(false);  // Toggle state
   const [showManageActivities, setShowManageActivities] = useState(false); // State for managing activities
 
-  // Fetch students from Supabase
+  // Fetch students from MongoDB backend
   const fetchStudents = async () => {
-    const { data, error } = await supabase
-      .from('students')
-      .select('*');
-
-    if (error) {
+    try {
+      const studentsData = await getStudents();
+      setStudents(studentsData);
+    } catch (error) {
       console.error('Error fetching students:', error);
-    } else {
-      setStudents(data);
     }
   };
 
-  // Fetch activities from Supabase
+  // Fetch activities from MongoDB backend
   const fetchActivities = async () => {
-    const { data, error } = await supabase
-      .from('activities')
-      .select('*');
-
-    if (error) {
+    try {
+      const activitiesData = await getActivities();
+      setActivities(activitiesData);
+    } catch (error) {
       console.error('Error fetching activities:', error);
-    } else {
-      setActivities(data);
     }
   };
 
@@ -51,7 +45,15 @@ function App() {
       {/* Include the link to the Gravatar URL generator at the top */}
       <header style={{ marginBottom: '20px' }}>
         <p>
-          Need an avatar? Generate one <a href="https://vinicius73.github.io/gravatar-url-generator/#/" target="_blank" rel="noopener noreferrer">here</a>.
+          Need an avatar? Generate one{' '}
+          <a
+            href="https://vinicius73.github.io/gravatar-url-generator/#/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            here
+          </a>
+          .
         </p>
       </header>
 
