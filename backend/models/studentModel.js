@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Student Schema
 const studentSchema = new mongoose.Schema({
   name: { type: String, required: true },
   avatar: { type: String }, // Image URL
