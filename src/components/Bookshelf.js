@@ -22,7 +22,7 @@ const badgeIconMapping = {
 
 // Helper function to render badges using the mapping
 const renderBadges = (badges) => {
-  if (!badges || badges.length === 0) return <p>No Badges</p>;
+  if (!badges || badges.length === 0) return <span>No Badges</span>; // Use span instead of p
 
   return badges.map((badge, index) => {
     const badgeDetails = badgeIconMapping[badge];
@@ -38,6 +38,7 @@ const renderBadges = (badges) => {
     );
   });
 };
+
 
 const Bookshelf = ({ students, setStudents, activities }) => {
   const [selectedStudent, setSelectedStudent] = useState(null); // Modal state
