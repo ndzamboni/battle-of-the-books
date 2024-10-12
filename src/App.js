@@ -12,7 +12,11 @@ import './App.css';  // Global styles
 function App() {
   const [students, setStudents] = useState([]);
   const [activities, setActivities] = useState([]);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);  // Toggle state
+  const [showLeaderboard, setShowLeaderboard] = useState(() => {
+    // Get the stored leaderboard toggle state from localStorage
+    const savedState = localStorage.getItem('showLeaderboard');
+    return savedState === 'true'; // Convert string to boolean
+  });
   const [showManageActivities, setShowManageActivities] = useState(false); // State for managing activities
 
   // Fetch students from MongoDB backend
@@ -39,6 +43,11 @@ function App() {
     fetchStudents();
     fetchActivities();
   }, []);
+
+  // Update localStorage whenever showLeaderboard changes
+  useEffect(() => {
+    localStorage.setItem('showLeaderboard', showLeaderboard);
+  }, [showLeaderboard]);
 
   return (
     <div className="app-container">
