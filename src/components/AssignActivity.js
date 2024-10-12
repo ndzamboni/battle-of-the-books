@@ -17,22 +17,31 @@ const AssignActivity = ({ students, setStudents, activities }) => {
           points: activity.points,
         });
         
+        // Log the full API response for debugging
+        console.log('API response:', response);
+
         // Get the updated student data from the response
-        const updatedStudent = response.data.student;
+        const updatedStudent = response.student || response.data?.student;
 
-        // Update the state with the updated student data
-        setStudents((prevStudents) => 
-          prevStudents.map((student) => 
-            student._id === updatedStudent._id ? updatedStudent : student
-          )
-        );
+        // Check if the updated student data is valid
+        if (updatedStudent && updatedStudent._id) {
+          setStudents((prevStudents) => 
+            prevStudents.map((student) => 
+              student._id === updatedStudent._id ? updatedStudent : student
+            )
+          );
+          alert('Activity assigned and badges updated');
+        } else {
+          console.error('Unexpected response:', response);
+          alert('Failed to assign activity, unexpected response.');
+        }
 
-        alert('Activity assigned and badges updated');
+        // Reset form
         setSelectedStudent('');
         setSelectedActivity('');
       } catch (error) {
         console.error('Error assigning activity:', error);
-        alert('Failed to assign activity');
+        alert('Failed to assign activity.');
       }
     } else {
       alert('Please select both student and activity');
