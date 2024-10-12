@@ -8,15 +8,18 @@ const AddActivity = ({ activities, setActivities }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await addActivity({ name, points });
+      const newActivity = await addActivity({ name, points });
 
-      // Check if the response and data are not null or undefined
-      if (response && response.data) {
-        setActivities([...activities, response.data]);
+      // Log the full response to see what's returned from the API
+      console.log('API response:', newActivity);
+
+      // No need to check for response.data anymore since newActivity is the object
+      if (newActivity && newActivity._id) {
+        setActivities([...activities, newActivity]); // Add the new activity to the state
         setName('');
         setPoints('');
       } else {
-        console.error('Unexpected response:', response);
+        console.error('Unexpected response:', newActivity);
         alert('There was an error adding the activity. Please try again.');
       }
     } catch (error) {
