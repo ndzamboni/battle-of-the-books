@@ -28,7 +28,7 @@ export const getStudents = async () => {
 export const addStudent = async (student) => {
   try {
     const response = await api.post('/students/add', student);
-    return response.data;
+    return response.data; // Returning the response data directly
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Error adding student');
   }

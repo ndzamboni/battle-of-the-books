@@ -18,7 +18,7 @@ router.post('/add', async (req, res) => {
   try {
     const newStudent = new Student({ name, avatar, color });
     await newStudent.save();
-    res.status(201).json(newStudent);
+    res.status(201).json(newStudent); // Ensure the new student is returned
   } catch (error) {
     res.status(400).json({ error: 'Error adding student' });
   }
