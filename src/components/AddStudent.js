@@ -4,24 +4,24 @@ import { addStudent } from '../api';
 const AddStudent = ({ students, setStudents }) => {
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState('');
-  const [color, setColor] = useState('');
+  const [color, setColor] = useState('#000000'); // Default color set for color picker
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await addStudent({ name, avatar, color });
+      const newStudent = await addStudent({ name, avatar, color });
 
       // Log the full response to see what's returned from the API
-      console.log('API response:', response);
+      console.log('API response:', newStudent);
 
-      // Check if the response and data are not null or undefined
-      if (response && response.data) {
-        setStudents([...students, response.data]);
+      // No need to check for response.data anymore since newStudent is the object
+      if (newStudent && newStudent._id) {
+        setStudents([...students, newStudent]); // Add the new student to the state
         setName('');
         setAvatar('');
-        setColor('');
+        setColor('#000000'); // Reset color to default
       } else {
-        console.error('Unexpected response:', response);
+        console.error('Unexpected response:', newStudent);
         alert('There was an error adding the student. Please try again.');
       }
     } catch (error) {
@@ -47,8 +47,7 @@ const AddStudent = ({ students, setStudents }) => {
         onChange={(e) => setAvatar(e.target.value)}
       />
       <input
-        type="text"
-        placeholder="Color"
+        type="color"
         value={color}
         onChange={(e) => setColor(e.target.value)}
       />
