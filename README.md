@@ -103,8 +103,10 @@ The backend provides several REST API endpoints:
 
 ## Screenshots
 
-![Student Management](path/to/student-management-screenshot.png)
-![Leaderboard](path/to/leaderboard-screenshot.png)
+![Student Management](public/images/pic1.PNG)
+![Student Totals](public/images/pic2.PNG)
+![Activity Management](public/images/pic3.PNG)
+![Leaderboard](public/images/pic4.PNG)
 
 ## Future Improvements
 
